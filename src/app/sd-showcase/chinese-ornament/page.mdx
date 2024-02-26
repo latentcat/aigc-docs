@@ -1,0 +1,172 @@
+
+
+
+# 中国传统纹样 - LoRA
+
+
+
+模型训练：shichen \
+数据处理：ciaochaos
+
+
+## 简介
+
+我们训练的中国纹样集锦 LoRA 模型数据来自 [书格 - 中国纹样集锦](https://www.shuge.org/ebook/zhong-guo-wen-yang-ji-jin/)，包含近百张中国传统纹样平面图。在对图像精细处理后，得到了具有一定背景理解能力、泛化能力的 LoRA 模型。
+
+| 版本       | 介绍               |
+|----------|------------------|
+| 2023.4.1 | 上传 LoRA，介绍内容     |
+| 2023.4.4 | 更新训练方法（Wiki 待上传） |
+
+
+## 模型下载
+
+* 部分模型：https://civitai.com/models/29858/chinese-traditional-pattern
+* 全部模型（30+）：[Hugging Face - IoC Lab_Models](https://huggingface.co/ioclab/IocLab_Models/tree/main)
+
+
+## 使用方法
+
+
+在训练集的标注中，分为以下五个语段：
+
+![tag截图](image/co/co-13.png)
+
+```
+traditional chinese pattern
+```
+
+分类词，添加该词更容易让它成为其他图片的背景。
+
+```
+with circular symmetrical composition
+with square symmetrical composition
+with special-shaped symmetrical composition
+```
+
+构图分类词，circular/square/special-shaped 可选，使图片更容易出圆形 / 方形 / 异形构图。
+
+```
+red and blue color scheme
+```
+
+颜色倾向，可选 1-4 种颜色，越靠前的在画面中的权重越大，可以理解为这些颜色会成为第一眼看上去的图片颜色分布。
+
+```
+featuring horses and clouds
+featuring flowers and branches
+```
+
+以 xx 为特点，如以花朵为特点，以荷花和荷叶为特点等，花和云是最佳词，其他词语的泛化能力稍弱。
+
+```shell
+a flower in the center
+```
+
+以 xx 为特点，如以花朵为特点，以荷花和荷叶为特点等，花和云是最佳词，其他词语的泛化能力稍弱。
+
+:::{figure} image/co/co-14.png
+:::
+
+所以你可以围绕着这五种固定句式进行扩充，如需要作为背景，可以调低权重，增加 1 girl。
+
+## 分层拆解：
+
+在分层图片中可见，在高权重下，通过仅开启 MIDD，OUTD 等 LoRA 层的权重，可以做到相比于直接降低权重，更能保留纹样风格的人物背景图。
+
+![分层](image/co/co-17.jpeg)
+
+## 推荐模型版本介绍：
+
+这里是一些效果比较特色的模型版本，**但出图效果与参数，种子等都有关系，你可以尽情尝试，期待你的评论**。
+
+![15](image/co/co-10.jpg)
+
+![610](image/co/co-09.jpg)
+
+![1115](image/co/co-15.jpeg)
+
+![1620](image/co/co-16.jpeg)
+
+
+## 特色模型版本
+
+以下是一些**特色模型版本**：
+
+- **4**：特点是纹样更卡通化，色彩更缓和
+- **7**：特点是对关键词的还原更好，更符合数据集的倾向
+- **10**：特点是更对称，同时构图倾向会偏向于非中心对称构图
+- **13**：特点是相比 10 的颜色会更缓和，高权重下会出现第三种散布构图
+- **15**：特点是高饱和度和高横向对称构图
+- **16**：特点是高饱和度 + 散布构图
+
+## 人物配合版本
+
+以下是容易和人物配合的版本：
+
+- **loha01_old3**: 更容易出卡通光影，构图和花纹装饰性强
+- **loha04_old3**: 构图容易出全身，光影保留效果好
+- **loha06_old1**: 对构图限制小，人物动作自然
+- **loha02_old2**: 背景层次更多，对称性强
+
+**注意**：如果极其难出人物，需要配合 Lora-Weight-Block 插件进行分层调整，只开启 IND 层或者 OUTD 层，较为容易出现人物。
+
+数据集标注及 LoHa 训练方法**还在更新ing**。
+
+
+## 图像处理
+
+:::{figure} image/co/co-04.jpg
+原始数据集
+:::
+
+:::{figure} image/co/co-03.jpg
+Label Studio
+:::
+
+:::{figure} image/co/co-01.jpg
+裁切后数据
+:::
+
+:::{figure} image/co/co-02.jpg
+白平衡 + 校色
+:::
+
+## 图像打标
+
+打标流程
+
+![tag截图](image/co/co-13.png)
+
+使用 BooruDatasetTagManager 加载文件夹，通过对清洗后的数据集进行背景，颜色，风格，构图的限定词分类，用带有联系的相似词语来进行训练
+
+:::{figure} image/co/co-18.png
+AI 自动标注，难以拟合
+:::
+
+:::{figure} image/co/co-10.jpg
+手动打标后
+:::
+
+
+## 测试输出
+
+![](image/co/co-07.jpg)
+
+![](image/co/co-08.jpg)
+
+![](image/co/co-09.jpg)
+
+![](image/co/co-10.jpg)
+
+![](image/co/co-11.jpg)
+
+![](image/co/co-05.jpg)
+
+![](image/co/co-06.jpg)
+
+
+## 问题与边界
+
+
+数据集经过高度人工筛选，存在非对称类泛化性较低的问题，需要补充数据集 or 继续训练，如果你有更多的建议，欢迎评论 or 提交 pr

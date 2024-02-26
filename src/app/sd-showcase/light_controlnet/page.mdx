@@ -1,0 +1,206 @@
+
+
+# Light Composition Controlnet 使用教程及训练记录
+
+尚未完成，请等待动漫数据集训练完毕！预计完成时间 **4.29**
+:::
+
+
+作者：shichen
+
+
+## 设想
+
+
+在我的毕设中，我通过 Midjourney 生成风格图，并训练后在 SD WebUI 中使用，发现目前虽然有控制构图，骨骼，人物等的 controlnet ，但是缺少一个让美术从 0 - 1 的，针对光影和构图的控制工具，于是设想是否可以制作这样的一个 controlnet 。在阅读并尝试跑通了 controlnet 原作者的 demo 后，我发现这是可行的
+
+
+![s15](./image/light/s15.jpg)
+
+
+![s33](./image/light/s33.png)
+
+
+## 使用教程
+
+测试版下载连接：
+* [ 测试版 ](https://huggingface.co/ioclab/control_v1u_sd15_illumination_webui)（ 分为三个训练步骤，你可以分别尝试他们 ）
+
+
+目前还在对各步数的检查点进行极限测试，如果你已经拿到了提前分享的预览版，最佳实践是权重调整 0.5-0.8 ，退出时机调整 0.5-0.9 (具体影响可以自己测试或者见末尾的对比图)。我会在 2 天内完成动漫数据集的合入及相关测试。并会在之后将相关数据集开源。
+
+
+当生成了一张图，很喜欢这张的光影效果以及构图，但是又想做一些修改。
+
+当使用其他绘图软件，绘制了一张构图的黑白色稿。
+
+可以这样做：我们以三金老师的一张图片来举例
+
+
+![s31](./image/light/s31.png)
+
+
+对这张图片进行黑白，模糊处理，并扣出烟花，将他放大，得到黑白图。
+
+
+![s32](./image/light/s32.png)
+
+将黑白图放入controlnet，选择模型（可从huggingface上下载）
+
+![s13](./image/light/s29.png)
+
+会得到下面三张图
+
+![s13](./image/light/s27.jpg)
+
+![s13](./image/light/s28.jpg)
+
+![s13](./image/light/s17.jpg)
+
+可以看到虽然光影关系得到了保留，但是由于原人物的位置太黑了，导致 Prompt 中的 1 girl 并没有和画面联系上，所以我们需要另一个 controlnet 配合赋予正确的语义关系
+
+![s13](./image/light/s30.png)
+
+在使用 seg 后，两个 controlnet 配合，切换不同的底膜，可以得到如下的效果
+
+![s13](./image/light/s18.jpg)
+
+![s13](./image/light/s19.jpg)
+
+![s13](./image/light/s20.jpg)
+
+![s13](./image/light/s22.jpg)
+
+![s13](./image/light/s24.jpg)
+
+![s13](./image/light/s25.jpg)
+
+现在，请自行尝试，目前还未完成全部数据集的训练，在泛化性上会有所不足，需要根据场景和提示词去调整权重，如果你有好的效果或者碰到了问题，可以在评论区留言，其他对比效果在文章下发。
+
+### 成果展示
+
+
+![s13](./image/light/s33.png)
+
+
+
+#### 分享记录
+
+以下内容大部分出自在 huggingface 线下的分享活动中。
+
+![s13](./image/light/s13.jpg)
+
+![s8](./image/light/s8.jpg)
+
+目前可见，controlnet 已经学到了亮暗对应的关系，如图中在胸部亮时，对应的光照是侧光且发亮，在原图暗时，对应的生成效果是无光。
+
+且目前可见初步学习到了光源和图片中及 Prompt 理解的关系，如在原本的图中是高亮的头发，在变为黑白图控制后 AI 理解为打开的窗户 - 主光源。在刻意涂抹后，变为了昏暗的背景。这种语义化好坏参半，会在后续中分叉进行去语义化和加强语义化的两个版本进行训练。
+
+
+![s9](./image/light/s9.jpg)
+
+![s10](./image/light/s10.jpg)
+
+![s11](./image/light/s11.jpg)
+
+在以上三组图中可见，通过对输入内容进行白色亮点的添加，并在 Prompt 中输入漂浮的星星，就可以将其引导到白色亮点上。
+
+![s12](./image/light/s12.jpg)
+
+![s14](./image/light/s14.jpg)
+
+
+
+
+## 训练方法
+
+
+### 数据集处理
+
+
+使用 Python 的 PIL 库对数据集图片进行处理，取得尽可能保留**光影关系**，同时去除掉细节的对照集。核心思路为先对图像进行缩放，让其在高分辨率下进行处理，防止细节提前丢失。并通过 **```对比度```** ，**```高斯模糊```** - **```表面模糊```** - **```高斯模糊```** - **```多次滤波```** 去掉线条细节 - **```自适应直方图均衡```** 调整光影关系 - **```像素化```** 破坏内容细节（如脸部，物体纹路） - **```压缩```** 到 512 尺寸方便训练。
+
+```
+
+def imgprocess(path):
+    # 打开原始图像
+    img = Image.open(path)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+
+    img = img.convert('L')
+    # img = ImageOps.equalize(img, mask=None)
+    img = img.resize((1536, 1536), resample=Image.BILINEAR)
+    enhancer = ImageEnhance.Contrast(img)
+    img_contrast = enhancer.enhance(1.3)
+    img = img_contrast
+
+    # 使用高斯模糊去除一部分细节
+    img = img.filter(ImageFilter.GaussianBlur(radius=5))
+    img = img.filter(ImageFilter.BoxBlur(radius=15))
+    img = img.filter(ImageFilter.GaussianBlur(radius=10))
+
+    # 使用中值滤波器去除更多的细节
+    img = img.filter(ImageFilter.MedianFilter(size=3))
+    img= img.filter(ImageFilter.SMOOTH)
+    # 使用边缘增强滤波器保留光影和色块的模糊关系
+
+    img = img.filter(ImageFilter.UnsharpMask(radius=2, percent=150, threshold=1))
+
+    img_array = np.array(img)
+
+    img = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+
+    # 将图像转换为灰度图像
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # 对图像进行自适应直方图均衡化
+    clahe = cv2.createCLAHE(clipLimit=1.0, tileGridSize=(8,8))
+    cl_img = clahe.apply(gray)
+
+    # 将图像转换为 Pillow 格式，并显示处理后的图像
+    img = Image.fromarray(cl_img)
+    img = img.resize((img.size[0] // 16, img.size[1] // 16), resample=Image.BOX)
+    img = img.resize((img.size[0] * 16, img.size[1] * 16), resample=Image.NEAREST)
+    img = img.filter(ImageFilter.GaussianBlur(radius=10))
+    enhancer = ImageEnhance.Contrast(img)
+    img_contrast = enhancer.enhance(1.3)
+    img = img_contrast
+    img = img.resize((512, 512), resample=Image.BILINEAR)
+
+    return img
+
+
+```
+
+
+![s1](./image/light/s1.png)
+
+
+![s2](./image/light/s2.png)
+
+
+![s3](./image/light/s3.png)
+
+
+### 训练过程
+
+
+![s16](./image/light/s16.jpg)
+
+![s4](./image/light/s4.jpg)
+
+![s5](./image/light/s5.jpg)
+
+![s6](./image/light/s6.jpg)
+
+
+
+
+
+### 泛化测试
+
+
+不同参数对比图
+
+![s26](./image/light/s26.jpg)

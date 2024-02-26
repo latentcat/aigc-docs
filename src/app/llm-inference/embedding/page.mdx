@@ -1,0 +1,243 @@
+
+
+
+# 使用 LangChain 实现语义搜索
+
+
+作者：ciaochaos
+
+## 简介
+
+语义搜索是 LLM 工程中的重要一环，它可以通过特征向量对海量的文本数据进行匹配，从而使 LLM “突破” token 数量限制，获取更海量的信息。本文将使用 LangChain + Gradio + FAISS 对这项技术做一个基本的实现。以下是 ChatGPT 对 Embedding 向量搜索的解释，和 cohere 语义搜索的框架图。
+
+{attribution="gpt-3.5-turbo"}
+> Embedding 向量搜索是一种基于向量空间模型的搜索技术，它通过将文本转化为向量形式，实现文本相似度比较来进行搜索。具体来说，Embedding 向量搜索会首先对文本进行预处理和特征提取，将文本输出为固定长度的向量，然后在向量空间中对这些向量进行相似度度量，找到与查询向量最相似的文本向量，从而完成搜索任务。这种技术应用广泛，如在自然语言处理、社交网络分析、图像搜索等领域都有广泛的应用。其优点是可以快速地搜索出与查询向量最相似的结果，同时可以实现对多参数查询的高效处理，缺点是对于文本含义非常复杂的情况，挖掘出的语义信息可能比较有限，容易出现精度问题。
+
+:::{figure} image/embedding/eb-1.jpg
+来源：[cohere - Semantic Search](https://docs.cohere.ai/docs/semantic-search)
+:::
+
+
+## 数据准备
+
+以 [ConvoKit](https://github.com/CornellNLP/ConvoKit) 中的老友记全集数据为例，将数据下载并处理成 TXT、Excel，便于查看和后续使用。
+
+安装 ConvoKit：
+
+```shell
+pip install convokit
+```
+
+导入包：
+
+```python
+from convokit import Corpus, download
+```
+
+下载数据：
+
+```python
+corpus = Corpus(download('friends-corpus'))
+corpus.print_summary_stats()
+```
+
+将数据写入文件：
+
+```python
+for convo_index, convo in enumerate(corpus.iter_conversations()):
+
+    season = convo.meta['season']
+    episode = convo.meta['episode']
+    scene = convo.meta['scene']
+
+    self.write_txt_line(f"- SEASON: {season}; \n- EPISODE: {episode}; \n- SCENE: {scene}")
+
+    for utt_index, utt in enumerate(convo.iter_utterances()):
+
+        role = ""
+        content = ""
+
+        if utt.speaker.id == "TRANSCRIPT_NOTE":
+
+            role = "TRANSCRIPT_NOTE"
+            content = utt.meta['transcript_with_note']
+
+        else:
+
+            role = utt.speaker.id
+            content = utt.text
+
+        self.write_xlsx_line([season, episode, scene], role, content)
+
+        self.write_txt_line(f"{role}: {content}")
+```
+
+查看数据：
+
+![](image/embedding/eb-2.png)
+
+![](image/embedding/eb-3.png)
+
+
+
+## Embedding 数据库建立
+
+此部分将数据文本分割，使用 OpenAI Ada embedding 模型转为向量存入数据库。
+
+导入依赖：
+
+```python
+from langchain import FAISS
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.text_splitter import CharacterTextSplitter
+import pickle
+```
+
+设置 API Key：
+
+```python
+import os
+os.environ['OPENAI_API_KEY'] = ''
+```
+
+用分割符 "\n\n" 按单句分割文本：
+
+```python
+IN_DIR = './text_source'
+filename = 'friends-corpus'
+
+with open(f'./{IN_DIR}/{filename}.txt') as f:
+    file = f.read()
+text_splitter = CharacterTextSplitter(separator='\n\n', chunk_size=0, chunk_overlap=0)
+texts = text_splitter.split_text(file)
+```
+
+或用分割符 "---" 按剧本场景分割文本：
+
+```python
+text_splitter = CharacterTextSplitter(separator='---', chunk_size=0, chunk_overlap=0)
+texts = text_splitter.split_text(file)
+```
+
+使用 OpenAI 的 Ada 模型和 FAISS 建立向量数据库：
+
+
+```python
+OUT_DIR = './vector_db_out'
+embeddings = OpenAIEmbeddings()
+vector_store = FAISS.from_texts(texts, embeddings)
+```
+
+使用 pickle 将数据库对象序列化成二进制：
+
+
+```python
+with open(f"{OUT_DIR}/{filename}.pkl", "wb") as f:
+    pickle.dump(vector_store, f)
+```
+
+
+
+## 查询与 Gradio UI
+
+
+通过 Gradio web UI 构建查询网页。
+
+
+重新将二进制反序列化为 Python 对象：
+
+
+```python
+with open(f"{OUT_DIR}/{filename}.pkl", "rb") as f:
+    vector_store = pickle.load(f)
+```
+
+安装并导入 Gradio：
+
+```shell
+pip install gradio
+```
+
+```python
+import gradio as gr
+```
+
+查询函数：
+
+```python
+def question_answer(self, question, num_result):
+
+    docs = vector_store.similarity_search_with_score(question, k=num_result)
+    result = [[str(round(score, 3)), doc.page_content] for doc, score in docs]
+
+    return result
+```
+
+定义并启动 Gradio：
+
+
+```python
+with gr.Blocks() as demo:
+    with gr.Row():
+        with gr.Column():
+            prompt = gr.Textbox(
+                label="Prompt",
+            )
+            num_result = gr.Slider(
+                1, 200, 50,
+                step=1,
+                label="结果数",
+            )
+            submit_btn = gr.Button(
+                label="搜索"
+            )
+        with gr.Column():
+            output = gr.Dataframe(
+                headers=["Score", "Content"],
+                datatype=["str", "markdown"]
+            )
+
+    submit_btn.click(
+        fn=question_answer,
+        inputs=[
+            prompt, num_result
+        ],
+        outputs=output
+    )
+
+demo.launch(
+    server_name="0.0.0.0",
+    server_port=7010
+)
+```
+
+
+## 测试结果
+
+
+> 以下是老友记、原神、豆瓣电影数据的测试，仅供学习参考，数据均来自 GitHub。
+
+
+:::{figure} image/embedding/eb-gradio-1.jpg
+老友记场景
+:::
+
+:::{figure} image/embedding/eb-gradio-2.jpg
+老友记语录
+:::
+
+:::{figure} image/embedding/eb-gradio-3.jpg
+旅行者派蒙对话
+:::
+
+:::{figure} image/embedding/eb-gradio-4.jpg
+原神全部配音文本（包含发言人）
+:::
+
+:::{figure} image/embedding/eb-gradio-5.jpg
+原神全部配音文本（对话 + Meta)
+:::
+
+:::{figure} image/embedding/eb-gradio-6.jpg
+豆瓣电影简介
+:::

@@ -1,0 +1,47 @@
+
+
+
+# Stable Diffusion Web UI 安装流程 
+
+
+作者：ciaochaos
+
+
+本文使用 [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui#installation-and-running) 进行安装和配置，另有 **秋葉 aaaki** 提供的 [Web UI 整合包](https://www.bilibili.com/video/BV17d4y1C73R/) 可供选择。
+
+## 安装前准备
+
+1. **命令行翻墙**
+
+    在某些时候，可能需要命令行科学上网，以 Clash 为例，[Clash for Windows](https://clashforwindows.org/) 可以在 `General` - `Prot` 右侧的终端图标 - `Copy Commands Only` 拷贝命令行翻墙脚本，[ClashX](https://clashx.org/)（macOS）可以在菜单栏中选择 `复制终端代理命令`。
+
+2. **VS Code**
+
+    下载并安装 [VS Code](https://code.visualstudio.com/)。Windows 安装时勾选 `将“通过 Code 打开”操作添加到 Windows 资源管理器文件上下文菜单` 和 `...目录上下文菜单` 两个选项。
+
+3. **Git 和 GitHub Desktop**
+
+    下载并安装 [Git](https://git-scm.com/download/win) 或 [GitHub Desktop](https://git-scm.com/download/win)（推荐）。
+
+4. **Python 环境**
+
+    下载并安装 [Python 3.10.7](https://www.python.org/downloads/release/python-3107/)（Windows 选择 `Windows installer (64-bit)`，macOS 选择 `macOS 64-bit universal2 installer`）。在安装时，切记勾选 `Add Python to PATH` 选项。
+
+## Web UI 下载与安装
+
+若已安装 GitHub Desktop，打开 https://github.com/AUTOMATIC1111/stable-diffusion-webui，点击 `Code` - `Open with GitHub Desktop`，在弹出的软件界面中选择 Local Path 后点击 `Clone` 克隆代码仓库。
+
+若无 GitHub Desktop，在命令行中 cd 进入希望安装的目录，输入 `git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git` 克隆代码仓库。
+
+下载完成后，使用 VS Code 打开项目文件夹，在菜单中选择 `Terminal` - `New Terminal` 创建项目目录终端，输入 `webui-user.bat` 开始安装。
+
+## Web UI 启动脚本
+
+首次安装完成后，均使用 `webui-user.bat` 再次开启 Web UI。
+
+配置、使用方法等，详见：
+
+* [](./webui-config)
+* [](./webui-usage)
+* [](./controlnet)
+* [](./lora)

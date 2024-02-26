@@ -1,0 +1,89 @@
+
+
+# 图像压缩
+
+
+作者：ciaochaos \
+代码仓库：ciaochaos，cpunisher，shichen
+
+
+## Squoosh
+
+https://squoosh.app
+
+![](image/ic/ic-2.jpg)
+
+![](image/ic/ic-3.jpg)
+
+## 图像压缩 Gradio Web UI
+
+
+使用 Pillow（PIL）+ Gradio 批量压缩图像。
+
+### 代码
+
+[github.com/Isle-of-Chaos/image-process-webui](https://github.com/Isle-of-Chaos/image-process-webui)
+
+处理单个图像：
+
+```python
+def convert_to_optimized_jpeg(self, input_path, output_path):
+
+    img = Image.open(input_path)
+
+    if self.config['is_resize']:
+        img = self.resize_image(img, self.config['max_width'], self.config['max_height'])
+
+    fill_color = (0, 0, 0)
+    if input_path.endswith('.png'):
+        img = self.png_add_background(img, fill_color)
+
+    img.save(
+        output_path,
+        'jpeg',
+        quality=self.config['quality'],
+        optimize=True,
+    )
+
+    img.close()
+```
+
+
+缩放图像：
+
+
+```python
+def resize_image(self, img, max_width, max_height):
+
+    # 计算比例
+    width, height = img.size
+    ratio = min(max_width / width, max_height / height)
+
+    # 缩放图片
+    if ratio < 1:
+        img = img.resize((int(width * ratio), int(height * ratio)), Image.LANCZOS)
+
+    print(img.size)
+    return img
+```
+
+
+多线程并行：
+
+
+```python
+progress((0, len(images_inout)), desc="Starting")
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    futures = [executor.submit(self.convert_to_optimized_jpeg, source, target) for [source, target] in
+               images_inout]
+    for _ in concurrent.futures.as_completed(futures):
+        completed = completed + 1
+        progress((completed, len(futures)), desc=f"Processing")
+```
+
+
+
+### 效果
+
+
+![](image/ic/ic-1.jpg)

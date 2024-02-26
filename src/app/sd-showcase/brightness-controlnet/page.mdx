@@ -1,0 +1,219 @@
+
+
+# Brightness ControlNet 训练流程
+
+
+
+尚未完成
+:::
+
+
+
+作者：ciaochaos
+
+
+## 简介
+
+
+ControlNet 使 Stable Diffusion 有了一层额外的控制，官方的实现中可以从深度、边缘线、OpenPose 等几个维度控制生成的图像。这次我们希望通过亮度（brightness / grayscale）控制生图，从而实现老照片还原彩色、对现有图像重新着色等需求。
+
+
+本文将记录和介绍使用 HuggingFace Diffusers 训练 Brightness ControlNet 的过程。
+
+
+## 数据集准备
+
+
+数据源：
+* [LAION-Aesthetics V1](https://github.com/LAION-AI/laion-datasets/blob/main/laion-aesthetic.md)（LAION 美学评分大于 7 的子集）
+* [COYO-700M](https://huggingface.co/datasets/kakaobrain/coyo-700m)（包含 aesthetic_score_laion_v2 评分）
+
+
+下载数据：
+
+```python
+from img2dataset import download
+import shutil
+import multiprocessing
+
+def main():
+    download(
+        processes_count=16,
+        thread_count=64,
+        url_list="laion2B-en-aesthetic",
+        resize_mode="center_crop",
+        image_size=512,
+        output_folder="../laion-en-aesthetic",
+        output_format="files",
+        input_format="parquet",
+        skip_reencode=True,
+        save_additional_columns=["similarity","hash","punsafe","pwatermark","aesthetic"],
+        url_col="URL",
+        caption_col="TEXT",
+        distributor="multiprocessing",
+    )
+
+if __name__ == "__main__":
+    multiprocessing.freeze_support()
+    main()
+```
+
+
+构建 HuggingFace Datasets，保存本地并推至 Hub：
+
+
+```python
+import os
+from datasets import Dataset
+from pathlib import Path
+from PIL import Image
+
+data_dir = Path(r"H:\DataScience\laion-en-aesthetic")
+
+def entry_for_id(image_folder, filename):
+    img = Image.open(image_folder / filename)
+    gray_img = img.convert('L')
+    caption_filename = filename.replace('.jpg', '.txt')
+
+    with open(image_folder / caption_filename) as f:
+        caption = f.read()
+    return {
+        "image": img,
+        "grayscale_image": gray_img,
+        "caption": caption,
+    }
+
+max_images = 1000000
+
+def generate_entries():
+    index = 0
+
+    # cc3m 的所有子文件夹
+    image_folders = [f.path for f in os.scandir(data_dir) if f.is_dir()]
+    for image_folder in image_folders:
+
+        image_folder = Path(image_folder)
+        print(image_folder)
+
+        # cc3m 子文件夹的所有文件
+        for filename in os.listdir(image_folder):
+            if not filename.endswith('.jpg'):
+                continue
+            yield entry_for_id(image_folder, filename)
+            index += 1
+            if index >= max_images:
+                break
+
+        if index >= max_images:
+            break
+
+ds = Dataset.from_generator(generate_entries, cache_dir="./.cache")
+ds.save_to_disk("./grayscale_image_aesthetic_1M")
+ds.push_to_hub('ioclab/grayscale_image_aesthetic_1M', private=True)
+```
+
+
+## 训练过程
+
+
+使用 [ControlNet training example](https://github.com/huggingface/diffusers/tree/main/examples/controlnet) 脚本训练，具体参数如下：
+
+```shell
+accelerate launch train_controlnet_local.py \
+ --pretrained_model_name_or_path="runwayml/stable-diffusion-v1-5" \
+ --output_dir="./output_v1a2u" \
+ --dataset_name="./grayscale_image_aesthetic_100k" \
+ --resolution=512 \
+ --learning_rate=1e-5 \
+ --image_column=image \
+ --caption_column=caption \
+ --conditioning_image_column=grayscale_image \
+ --train_batch_size=16 \
+ --gradient_accumulation_steps=4 \
+ --num_train_epochs=2 \
+ --tracker_project_name="control_v1a2u_sd15_brightness" \
+ --enable_xformers_memory_efficient_attention \
+ --checkpointing_steps=5000 \
+ --hub_model_id="ioclab/grayscale_controlnet" \
+ --report_to wandb \
+ --push_to_hub
+```
+
+wandb 后台数据：
+
+A6000 GPU 训练时长：13h，sample_count：100k，epoch：1，batch_size：16，gradient_accumulation_steps：1。
+
+![](image/brightness-controlnet/10.jpg)
+
+TPU v4-8 GPU 训练时长：25h，sample_count：3m，epoch：1，batch_size：2，gradient_accumulation_steps：25。
+
+[训练报告](https://api.wandb.ai/links/ciaochaos/oot5cui2)：
+
+![](image/brightness-controlnet/5.jpg)
+
+![](image/brightness-controlnet/8.jpg)
+
+
+Google 提供的 TPU v4-8 的机器，配置了 240 核 480 线程 CPU、400GB 内存、128GB TPU 内存、2000Mbps 带宽、3TB 磁盘。
+
+粗浅计算，TPU v4-8 bf16 较单块 A6000 fp32 有 15 倍的速度提升。
+
+![](image/brightness-controlnet/6.jpg)
+
+![](image/brightness-controlnet/7.jpg)
+
+
+
+
+
+ControlNet 论文中提到的 ”Sudden Convergence“ 现象：
+
+![](image/brightness-controlnet/11.jpg)
+
+![](image/brightness-controlnet/12.jpg)
+
+
+
+
+
+## 效果
+
+
+![](image/brightness-controlnet/1.jpg)
+
+![](image/brightness-controlnet/2.jpg)
+
+![](image/brightness-controlnet/3.jpg)
+
+![](image/brightness-controlnet/4.jpg)
+
+
+
+
+## 参考资料
+
+* [Adding Conditional Control to Text-to-Image Diffusion Models](https://arxiv.org/abs/2302.05543)
+
+  ControlNet 论文。有原理解释、训练参数、对比图等重要信息。
+
+* [ControlNet - GitHub](https://github.com/lllyasviel/ControlNet)
+
+  ControlNet 官方仓库，包括一个[训练教程](https://github.com/lllyasviel/ControlNet/blob/main/docs/train.md)。
+
+* [ControlNet 1.1 - GitHub](https://github.com/lllyasviel/ControlNet-v1-1-nightly)
+
+  ControlNet 1.1 Nightly。
+
+* [Train your ControlNet with diffusers 🧨](https://huggingface.co/blog/train-your-controlnet)
+
+  HuggingFace 官方使用 Diffusers 训练 ControlNet 的教程，非常详尽。
+
+* [ControlNet training example](https://github.com/huggingface/diffusers/tree/main/examples/controlnet)
+
+  HuggingFace ControlNet 训练脚本案例。
+
+* [JAX/Diffusers community sprint 🧨](https://github.com/huggingface/community-events/tree/main/jax-controlnet-sprint)
+
+  HuggingFace × Google 社区冲刺活动文档。
+
+
