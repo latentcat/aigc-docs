@@ -12,16 +12,16 @@ export default function MixpanelAnalytics() {
 
   useEffect(() => {
 
-    mixpanel.init("315250a5a680247d1b79f7cbc5d4de6e", {
-      debug: true,
+    mixpanel.init("13746b390c813a2cec8e6030769ad9fd", {
+      // debug: true,
       // track_pageview: true,
       persistence: 'localStorage',
       api_host: "/mp",
     })
 
-    mixpanel.track_links("a", "click link", {
-      "referrer": document.referrer
-    });
+    // mixpanel.track_links("a", "click link", {
+    //   "referrer": document.referrer
+    // });
 
   }, [])
 
