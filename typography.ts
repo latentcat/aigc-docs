@@ -174,7 +174,7 @@ export default function typographyStyles({ theme }: PluginUtils) {
           fontWeight: '700',
           fontSize: theme('fontSize.2xl')[0],
           ...theme('fontSize.2xl')[1],
-          marginBottom: theme('spacing.2'),
+          marginBottom: theme('spacing.6'),
         },
         h2: {
           color: 'var(--tw-prose-headings)',
@@ -182,7 +182,7 @@ export default function typographyStyles({ theme }: PluginUtils) {
           fontSize: theme('fontSize.lg')[0],
           ...theme('fontSize.lg')[1],
           marginTop: theme('spacing.16'),
-          marginBottom: theme('spacing.2'),
+          marginBottom: theme('spacing.6'),
         },
         h3: {
           color: 'var(--tw-prose-headings)',
@@ -190,7 +190,7 @@ export default function typographyStyles({ theme }: PluginUtils) {
           ...theme('fontSize.base')[1],
           fontWeight: '600',
           marginTop: theme('spacing.10'),
-          marginBottom: theme('spacing.2'),
+          marginBottom: theme('spacing.6'),
         },
 
         // Media

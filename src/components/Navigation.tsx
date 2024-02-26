@@ -115,7 +115,7 @@ function VisibleSectionHighlight({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.2 } }}
       exit={{ opacity: 0 }}
-      className="absolute inset-x-0 top-0 bg-zinc-800/2.5 will-change-transform dark:bg-white/2.5"
+      className="absolute inset-x-0 top-0 bg-zinc-800/2.5 will-change-transform dark:bg-white/10"
       style={{ borderRadius: 8, height, top }}
     />
   )
@@ -234,6 +234,7 @@ export const navigation: Array<NavGroup> = [
   {
     title: '开始之前',
     links: [
+      // { title: '首页', href: '/' },
       { title: '文档缘起', href: '/preface/intro' },
       { title: '文档信息', href: '/preface/info' },
       { title: '联系我们', href: '/preface/contacts' },

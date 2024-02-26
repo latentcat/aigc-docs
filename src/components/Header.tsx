@@ -41,7 +41,7 @@ export const Header = forwardRef<
 
   let { scrollY } = useScroll()
   let bgOpacityLight = useTransform(scrollY, [0, 72], [0.5, 0.9])
-  let bgOpacityDark = useTransform(scrollY, [0, 72], [0.2, 0.8])
+  let bgOpacityDark = useTransform(scrollY, [0, 72], [1, 0.7])
 
   return (
     <motion.div
@@ -52,8 +52,8 @@ export const Header = forwardRef<
         !isInsideMobileNavigation &&
           'backdrop-blur-sm lg:left-72 xl:left-80 dark:backdrop-blur',
         isInsideMobileNavigation
-          ? 'bg-white dark:bg-zinc-900'
-          : 'bg-white/[var(--bg-opacity-light)] dark:bg-zinc-900/[var(--bg-opacity-dark)]',
+          ? 'bg-white dark:bg-black'
+          : 'bg-white/[var(--bg-opacity-light)] dark:bg-black/[var(--bg-opacity-dark)]',
       )}
       style={
         {
@@ -73,7 +73,7 @@ export const Header = forwardRef<
       <div className="flex items-center gap-5 lg:hidden">
         <MobileNavigation />
         <Link href="/" aria-label="Home">
-          <Logo className="h-6" />
+          <Logo className="h-8" />
         </Link>
       </div>
       <div className="flex items-center gap-5">

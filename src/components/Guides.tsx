@@ -4,23 +4,23 @@ import { Heading } from '@/components/Heading'
 const guides = [
   {
     href: '/authentication',
-    name: 'Authentication',
+    name: '文档信息',
     description: 'Learn how to authenticate your API requests.',
   },
   {
     href: '/pagination',
-    name: 'Pagination',
+    name: '编写团队',
     description: 'Understand how to work with paginated responses.',
   },
   {
     href: '/errors',
-    name: 'Errors',
+    name: '反馈问题',
     description:
       'Read about the different types of errors returned by the API.',
   },
   {
     href: '/webhooks',
-    name: 'Webhooks',
+    name: '联系我们',
     description:
       'Learn how to programmatically configure webhooks for your app.',
   },
@@ -30,9 +30,9 @@ export function Guides() {
   return (
     <div className="my-16 xl:max-w-none">
       <Heading level={2} id="guides">
-        Guides
+        资源
       </Heading>
-      <div className="not-prose mt-4 grid grid-cols-1 gap-8 border-t border-zinc-900/5 pt-10 sm:grid-cols-2 xl:grid-cols-4 dark:border-white/5">
+      <div className="not-prose mt-4 grid grid-cols-1 gap-8 border-t border-zinc-900/5 sm:grid-cols-2 xl:grid-cols-4 dark:border-white/5">
         {guides.map((guide) => (
           <div key={guide.href}>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">

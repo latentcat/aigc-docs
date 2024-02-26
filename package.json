@@ -27,6 +27,7 @@
     "@types/react-highlight-words": "^0.16.4",
     "acorn": "^8.8.1",
     "autoprefixer": "^10.4.7",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "fast-glob": "^3.3.0",
     "flexsearch": "^0.7.31",

@@ -1,6 +1,7 @@
 import { Guides } from '@/components/Guides'
 import { Resources } from '@/components/Resources'
 import { HeroPattern } from '@/components/HeroPattern'
+import {Logo} from "@/components/Logo";
 
 export const metadata = {
   title: 'API Documentation',
@@ -15,29 +16,36 @@ export const sections = [
 
 <HeroPattern />
 
-# API Documentation
+<h1 className="flex items-center">
+  <Logo className="h-8 block mr-3" />
+  <span className="block">AIGC All in One</span>
+</h1>
 
-Use the Protocol API to access contacts, conversations, group messages, and more and seamlessly integrate your product into the workflows of dozens of devoted Protocol users. {{ className: 'lead' }}
+by [Latent Cat](https://latentcat.com)
+
+
+AIGC (a.k.a. Generative AI) 终极整合文档。 {{ className: 'lead' }}
 
 <div className="not-prose mb-16 mt-6 flex gap-3">
-  <Button href="/quickstart" arrow="right">
-    <>Quickstart</>
+  <Button href="https://discord.gg/V9CNuqYfte" arrow="right">
+    <>加入 Discord</>
   </Button>
-  <Button href="/sdks" variant="outline">
-    <>Explore SDKs</>
+  <Button href="https://latentcat.com" variant="outline">
+    <>访问 latentcat.com</>
   </Button>
 </div>
 
-## Getting started {{ anchor: false }}
+## 开始 {{ anchor: false }}
 
-To get started, create a new application in your [developer settings](#), then read about how to make requests for the resources you need to access using our HTTP APIs or dedicated client SDKs. When your integration is ready to go live, publish it to our [integrations directory](#) to reach the Protocol community. {{ className: 'lead' }}
+本文档旨在囊括以生图为基点的生成式 AI 的全链路实践，从模型设计、数据获取到训练、微调、推理和其他奇技淫巧。点击菜单选择不同的板块和文档，如果网络环境尚佳，还可以参与底部的评论互动。请注意，本文档还处于非常早期的状态，欢迎友善交流、一起贡献。 {{ className: 'lead' }}
 
 <div className="not-prose">
-  <Button href="/sdks" variant="text" arrow="right">
-    <>Get your API key</>
+  <Button href="/preface/intro" variant="text" arrow="right">
+    <>开始浏览</>
   </Button>
 </div>
+
+<Resources />
 
 <Guides />
 
-<Resources />
