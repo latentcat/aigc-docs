@@ -5,8 +5,11 @@ import Giscus from "@giscus/react";
 
 
 export default function GiscusComments() {
+
+  let siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+
   return (
-    <div className="mt-16">
+    <div className="mt-16" id="giscus_ctn">
       <Giscus
         id="comments"
         repo="ciaochaos/aigc-doc-discussions"
@@ -18,7 +21,7 @@ export default function GiscusComments() {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="top"
-        theme="dark_protanopia"
+        theme={siteUrl + "/giscus-theme.css"}
         lang="zh-CN"
       />
     </div>

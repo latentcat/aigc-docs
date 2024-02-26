@@ -38,6 +38,18 @@ const nextConfig = {
       },
     ];
   },
+
+  async headers() {
+    return [
+      {
+        source: "/giscus-theme.css",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
+      },
+    ]
+  },
+
 }
 
 export default withSearch(withMDX(nextConfig))
