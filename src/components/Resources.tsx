@@ -31,7 +31,7 @@ const resources: Array<Resource> = [
     href: '/sd-inference/webui-install',
     name: 'Web UI 安装流程',
     description:
-      'Learn about the contact model and how to create, retrieve, update, delete, and list contacts.',
+      '一个重要的起点',
     icon: UserIcon,
     pattern: {
       y: 16,
@@ -45,7 +45,7 @@ const resources: Array<Resource> = [
     href: '/sd-showcase/chinese-ornament',
     name: '传统纹样 LoRA',
     description:
-      'Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.',
+      '从一个案例看 LoRA 训练',
     icon: ChatBubbleIcon,
     pattern: {
       y: -6,
@@ -56,10 +56,10 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/sd-showcase/inference-workflow',
-    name: 'SD 生成流程',
+    href: '/sd-showcase/brightness-controlnet',
+    name: 'Brightness ControlNet 训练',
     description:
-      'Learn about the message model and how to create, retrieve, update, delete, and list messages.',
+      '百万数据量的模型训练流程',
     icon: EnvelopeIcon,
     pattern: {
       y: 32,
@@ -70,10 +70,10 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/sd-showcase/brightness-controlnet',
-    name: 'Brightness ControlNet',
+    href: '/resources/awesome-aigc',
+    name: 'Awesome AIGC',
     description:
-      'Learn about the group model and how to create, retrieve, update, delete, and list groups.',
+      '实用参考大合集',
     icon: UsersIcon,
     pattern: {
       y: 22,
@@ -162,7 +162,7 @@ function Resource({ resource }: { resource: Resource }) {
             {resource.name}
           </Link>
         </h3>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-0 text-sm leading-5 text-zinc-600 dark:text-zinc-400">
           {resource.description}
         </p>
       </div>

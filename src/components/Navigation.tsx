@@ -221,7 +221,7 @@ export const navigation: Array<NavGroup> = [
       { title: '文档缘起', href: '/preface/intro' },
       { title: '文档信息', href: '/preface/info' },
       { title: '联系我们', href: '/preface/contacts' },
-      { title: '贡献者', href: '/preface/contributors' },
+      { title: '编写团队', href: '/preface/contributors' },
     ],
   },
   {

@@ -3,26 +3,26 @@ import { Heading } from '@/components/Heading'
 
 const guides = [
   {
-    href: '/authentication',
+    href: '/preface/info',
     name: '文档信息',
-    description: 'Learn how to authenticate your API requests.',
+    description: '链接、更新记录',
   },
   {
-    href: '/pagination',
+    href: '/preface/contributors',
     name: '编写团队',
-    description: 'Understand how to work with paginated responses.',
+    description: '谁在后面',
   },
   {
-    href: '/errors',
-    name: '反馈问题',
-    description:
-      'Read about the different types of errors returned by the API.',
-  },
-  {
-    href: '/webhooks',
+    href: '/preface/contacts',
     name: '联系我们',
     description:
-      'Learn how to programmatically configure webhooks for your app.',
+      '…如果评论区解决不了你的问题',
+  },
+  {
+    href: '/resources/ioc-lab-app',
+    name: 'IoC Lab App',
+    description:
+      '一个实用工具小集合',
   },
 ]
 
@@ -43,7 +43,7 @@ export function Guides() {
             </p>
             <p className="mt-4">
               <Button href={guide.href} variant="text" arrow="right">
-                Read more
+                Read
               </Button>
             </p>
           </div>
