@@ -39,6 +39,21 @@ const nextConfig = {
     ];
   },
 
+  async redirects() {
+    return [
+      {
+        source: '/:path*/index.html',
+        destination: '/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*.html',
+        destination: '/:path*',
+        permanent: true,
+      },
+    ]
+  },
+
   async headers() {
     return [
       {
