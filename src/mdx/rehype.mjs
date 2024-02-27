@@ -1,4 +1,5 @@
 import { slugifyWithCounter } from '@sindresorhus/slugify'
+import { transliterate as tr, slugify } from 'transliteration';
 import * as acorn from 'acorn'
 import { toString } from 'mdast-util-to-string'
 import { mdxAnnotations } from 'mdx-annotations'
@@ -56,7 +57,7 @@ function rehypeSlugify() {
     let slugify = slugifyWithCounter()
     visit(tree, 'element', (node) => {
       if (node.tagName === 'h2' && !node.properties.id) {
-        node.properties.id = slugify(toString(node))
+        node.properties.id = slugify(tr(toString(node)))
       }
     })
   }
