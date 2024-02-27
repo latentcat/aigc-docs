@@ -14,9 +14,8 @@ export const metadata = {
 
 > Embedding 向量搜索是一种基于向量空间模型的搜索技术，它通过将文本转化为向量形式，实现文本相似度比较来进行搜索。具体来说，Embedding 向量搜索会首先对文本进行预处理和特征提取，将文本输出为固定长度的向量，然后在向量空间中对这些向量进行相似度度量，找到与查询向量最相似的文本向量，从而完成搜索任务。这种技术应用广泛，如在自然语言处理、社交网络分析、图像搜索等领域都有广泛的应用。其优点是可以快速地搜索出与查询向量最相似的结果，同时可以实现对多参数查询的高效处理，缺点是对于文本含义非常复杂的情况，挖掘出的语义信息可能比较有限，容易出现精度问题。
 
-image/embedding/eb-1.jpg
+![](/assets/embedding/eb-1.jpg)
 来源：[cohere - Semantic Search](https://docs.cohere.ai/docs/semantic-search)
-:::
 
 
 ## 数据准备
@@ -75,9 +74,9 @@ for convo_index, convo in enumerate(corpus.iter_conversations()):
 
 查看数据：
 
-![](image/embedding/eb-2.png)
+![](/assets/embedding/eb-2.png)
 
-![](image/embedding/eb-3.png)
+![](/assets/embedding/eb-3.png)
 
 
 
@@ -221,24 +220,25 @@ demo.launch(
 
 ![](/assets/embedding/eb-gradio-1.jpg)
 老友记场景
-:::
+
 
 ![](/assets/embedding/eb-gradio-2.jpg)
 老友记语录
-:::
+
 
 ![](/assets/embedding/eb-gradio-3.jpg)
 旅行者派蒙对话
-:::
+
 
 ![](/assets/embedding/eb-gradio-4.jpg)
 原神全部配音文本（包含发言人）
-:::
+
 
 ![](/assets/embedding/eb-gradio-5.jpg)
 原神全部配音文本（对话 + Meta)
-:::
+
 
 ![](/assets/embedding/eb-gradio-6.jpg)
 豆瓣电影简介
-:::
+
+
