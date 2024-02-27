@@ -12,24 +12,36 @@ import {
 import { useMobileNavigationStore } from '@/components/MobileNavigation'
 import { MobileSearch, Search } from '@/components/Search'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import {ArrowUpRightIcon} from "@heroicons/react/20/solid";
 
 function TopLevelNavItem({
   href,
   children,
+  target,
 }: {
   href: string
   children: React.ReactNode
+  target?: string
 }) {
   return (
     <li>
       <Link
         href={href}
-        className="text-sm leading-5 text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+        target={target}
+        className="text-sm leading-5 text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white flex items-center"
       >
-        {children}
+        {children} <ArrowUpRightIcon className="w-4 h-4 ml-1"/>
       </Link>
     </li>
   )
+}
+
+export function HeaderLinks() {
+  return <>
+    <TopLevelNavItem href="https://midreal.ai/image" target="_blank">Image Gen</TopLevelNavItem>
+    <TopLevelNavItem href="https://midreal.ai/qrcode" target="_blank">QR Code</TopLevelNavItem>
+    <TopLevelNavItem href="https://latentcat.com" target="_blank">Latent Cat</TopLevelNavItem>
+  </>
 }
 
 export const Header = forwardRef<
@@ -79,9 +91,7 @@ export const Header = forwardRef<
       <div className="flex items-center gap-5">
         <nav className="hidden md:block">
           <ul role="list" className="flex items-center gap-8">
-            <TopLevelNavItem href="/">API</TopLevelNavItem>
-            <TopLevelNavItem href="#">Documentation</TopLevelNavItem>
-            <TopLevelNavItem href="#">Support</TopLevelNavItem>
+            <HeaderLinks />
           </ul>
         </nav>
         {/*<div className="hidden md:block md:h-5 md:w-px md:bg-zinc-900/10 md:dark:bg-white/15" />*/}

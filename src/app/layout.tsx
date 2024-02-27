@@ -44,7 +44,7 @@ export default async function RootLayout({
   let allSections = Object.fromEntries(allSectionsEntries)
 
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning>
+    <html lang="zh-CN" className="h-full" suppressHydrationWarning>
     <head>
       <link rel="manifest" href="/manifest.json"/>
       <link

@@ -11,6 +11,7 @@ import { useIsInsideMobileNavigation } from '@/components/MobileNavigation'
 import { useSectionStore } from '@/components/SectionProvider'
 import { Tag } from '@/components/Tag'
 import { remToPx } from '@/lib/remToPx'
+import {HeaderLinks} from "@/components/Header";
 
 interface NavGroup {
   title: string
@@ -25,24 +26,6 @@ function useInitialValue<T>(value: T, condition = true) {
   return condition ? initialValue : value
 }
 
-function TopLevelNavItem({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <li className="md:hidden">
-      <Link
-        href={href}
-        className="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-      >
-        {children}
-      </Link>
-    </li>
-  )
-}
 
 function NavLink({
   href,
@@ -245,9 +228,9 @@ export const navigation: Array<NavGroup> = [
     title: 'Stable Diffusion 图像生成',
     links: [
       { title: 'Stable Diffusion 介绍', href: '/sd-inference/intro' },
-      { title: 'Stable Diffusion Web UI 安装流程', href: '/sd-inference/webui-install' },
-      { title: 'Stable Diffusion Web UI 加速选项与常用配置', href: '/sd-inference/webui-config' },
-      { title: 'Stable Diffusion Web UI 基础用法与常用插件', href: '/sd-inference/webui-usage' },
+      { title: 'SD Web UI 安装流程', href: '/sd-inference/webui-install' },
+      { title: 'SD Web UI 加速选项与常用配置', href: '/sd-inference/webui-config' },
+      { title: 'SD Web UI 基础用法与常用插件', href: '/sd-inference/webui-usage' },
       { title: 'AI 动画及动态视频制作方式', href: '/sd-inference/webui-ani' },
       { title: 'ControlNet 安装与使用', href: '/sd-inference/controlnet' },
       { title: 'LoRA 使用方法', href: '/sd-inference/lora' },
@@ -260,7 +243,7 @@ export const navigation: Array<NavGroup> = [
       { title: '数据标注', href: '/sd-training/data-labeling' },
       { title: 'Dreambooth 模型训练方法', href: '/sd-training/dreambooth' },
       { title: 'LoRA 模型训练方法', href: '/sd-training/lora' },
-      { title: 'LoCon、LoHa、LyCORIS 模型训练方法', href: '/sd-training/locon' },
+      { title: 'LoCon 等模型训练方法', href: '/sd-training/locon' },
       { title: '模型融合与分层调试', href: '/sd-training/model-mix' },
     ],
   },
@@ -271,8 +254,8 @@ export const navigation: Array<NavGroup> = [
       { title: '浮世绘 - LoRA', href: '/sd-showcase/fuyue' },
       { title: '中国传统纹样 - LoRA', href: '/sd-showcase/chinese-ornament' },
       { title: '原神风格图标 - LoRA', href: '/sd-showcase/genshin' },
-      { title: 'Brightness ControlNet 训练流程', href: '/sd-showcase/brightness-controlnet' },
-      { title: 'Light Composition Controlnet 使用教程及训练记录', href: '/sd-showcase/light_controlnet' },
+      { title: 'Brightness ControlNet', href: '/sd-showcase/brightness-controlnet' },
+      { title: 'Light Composition Controlnet', href: '/sd-showcase/light_controlnet' },
       { title: 'SD 图像生成工作流程', href: '/sd-showcase/inference-workflow' },
     ],
   },
@@ -294,7 +277,7 @@ export const navigation: Array<NavGroup> = [
     links: [
       { title: 'IoC Lab 工具', href: '/llm-inference/lab-tool' },
       { title: 'LangChain 使用方法', href: '/llm-inference/langchain' },
-      { title: '使用 LangChain 实现语义搜索', href: '/llm-inference/embedding' },
+      { title: 'LangChain 语义搜索', href: '/llm-inference/embedding' },
       { title: 'Python 自动化脚本', href: '/llm-inference/python-tool' },
     ],
   },
@@ -319,9 +302,9 @@ export function Navigation(props: React.ComponentPropsWithoutRef<'nav'>) {
   return (
     <nav {...props}>
       <ul role="list">
-        <TopLevelNavItem href="/">API</TopLevelNavItem>
-        <TopLevelNavItem href="#">Documentation</TopLevelNavItem>
-        <TopLevelNavItem href="#">Support</TopLevelNavItem>
+        <div className="md:hidden flex flex-col gap-2">
+          <HeaderLinks />
+        </div>
         {navigation.map((group, groupIndex) => (
           <NavigationGroup
             key={group.title}
