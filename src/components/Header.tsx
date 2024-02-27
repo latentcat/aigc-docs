@@ -41,7 +41,7 @@ export const Header = forwardRef<
 
   let { scrollY } = useScroll()
   let bgOpacityLight = useTransform(scrollY, [0, 72], [0.5, 0.9])
-  let bgOpacityDark = useTransform(scrollY, [0, 72], [1, 0.7])
+  let bgOpacityDark = useTransform(scrollY, [0, 72], [0.2, 0.7])
 
   return (
     <motion.div
