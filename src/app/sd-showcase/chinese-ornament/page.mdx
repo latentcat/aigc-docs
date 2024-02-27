@@ -32,7 +32,7 @@ export const metadata = {
 
 在训练集的标注中，分为以下五个语段：
 
-![tag截图](image/co/co-13.png)
+![tag截图](/assets/chinese-ornament/co-13.png)
 
 ```
 traditional chinese pattern
@@ -67,7 +67,7 @@ a flower in the center
 
 以 xx 为特点，如以花朵为特点，以荷花和荷叶为特点等，花和云是最佳词，其他词语的泛化能力稍弱。
 
-image/co/co-14.png
+/assets/chinese-ornament/co-14.png
 :::
 
 所以你可以围绕着这五种固定句式进行扩充，如需要作为背景，可以调低权重，增加 1 girl。
@@ -76,19 +76,19 @@ image/co/co-14.png
 
 在分层图片中可见，在高权重下，通过仅开启 MIDD，OUTD 等 LoRA 层的权重，可以做到相比于直接降低权重，更能保留纹样风格的人物背景图。
 
-![分层](image/co/co-17.jpeg)
+![分层](/assets/chinese-ornament/co-17.jpeg)
 
 ## 推荐模型版本介绍：
 
 这里是一些效果比较特色的模型版本，**但出图效果与参数，种子等都有关系，你可以尽情尝试，期待你的评论**。
 
-![15](image/co/co-10.jpg)
+![15](/assets/chinese-ornament/co-10.jpg)
 
-![610](image/co/co-09.jpg)
+![610](/assets/chinese-ornament/co-09.jpg)
 
-![1115](image/co/co-15.jpeg)
+![1115](/assets/chinese-ornament/co-15.jpeg)
 
-![1620](image/co/co-16.jpeg)
+![1620](/assets/chinese-ornament/co-16.jpeg)
 
 
 ## 特色模型版本
@@ -118,19 +118,19 @@ image/co/co-14.png
 
 ## 图像处理
 
-image/co/co-04.jpg
+/assets/chinese-ornament/co-04.jpg
 原始数据集
 :::
 
-image/co/co-03.jpg
+/assets/chinese-ornament/co-03.jpg
 Label Studio
 :::
 
-image/co/co-01.jpg
+/assets/chinese-ornament/co-01.jpg
 裁切后数据
 :::
 
-image/co/co-02.jpg
+/assets/chinese-ornament/co-02.jpg
 白平衡 + 校色
 :::
 
@@ -138,34 +138,34 @@ image/co/co-02.jpg
 
 打标流程
 
-![tag截图](image/co/co-13.png)
+![tag截图](/assets/chinese-ornament/co-13.png)
 
 使用 BooruDatasetTagManager 加载文件夹，通过对清洗后的数据集进行背景，颜色，风格，构图的限定词分类，用带有联系的相似词语来进行训练
 
-image/co/co-18.png
+/assets/chinese-ornament/co-18.png
 AI 自动标注，难以拟合
 :::
 
-image/co/co-10.jpg
+/assets/chinese-ornament/co-10.jpg
 手动打标后
 :::
 
 
 ## 测试输出
 
-![](image/co/co-07.jpg)
+![](/assets/chinese-ornament/co-07.jpg)
 
-![](image/co/co-08.jpg)
+![](/assets/chinese-ornament/co-08.jpg)
 
-![](image/co/co-09.jpg)
+![](/assets/chinese-ornament/co-09.jpg)
 
-![](image/co/co-10.jpg)
+![](/assets/chinese-ornament/co-10.jpg)
 
-![](image/co/co-11.jpg)
+![](/assets/chinese-ornament/co-11.jpg)
 
-![](image/co/co-05.jpg)
+![](/assets/chinese-ornament/co-05.jpg)
 
-![](image/co/co-06.jpg)
+![](/assets/chinese-ornament/co-06.jpg)
 
 
 ## 问题与边界

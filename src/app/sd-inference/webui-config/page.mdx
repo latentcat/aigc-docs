@@ -26,20 +26,20 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
 -  请下载[测速插件](https://github.com/vladmandic/sd-extension-system-info)
 
-    ![插件下载](image/wc/1.jpg)
+    ![插件下载](/assets/webui-config/1.jpg)
 
 -  进入系统消息(System Info)选项卡，界面如下
 
-    ![插件界面](image/wc/2.jpg)
+    ![插件界面](/assets/webui-config/2.jpg)
 
 -  选择 **quick/normal/extensive** 分别对应 **1/1,2,4/1,2,4,8,10** 批量 点击跑图 ，等待后出现速度，在询问他人速度是否正常时，可以直接截图当前的整条信息。
 
-    ![测速](image/wc/3.jpg)
+    ![测速](/assets/webui-config/3.jpg)
 
 -  然后判断你的速度是否正常/排名，请看网站：[测速排名](https://vladmandic.github.io/sd-extension-system-info/pages/benchmark.html)
 搜索你的显卡型号，查看其他人的速度，以及他们的各选项，如果速度不对，只需要一一比对参数，然后抄作业就可以了。
 
-    ![对比](image/wc/4.jpg)
+    ![对比](/assets/webui-config/4.jpg)
 
 **要注意的是，部分加速手段会对图片质量及显存有较大影响，所以综合取舍最合适自己设备的选项即可**
 
@@ -47,7 +47,7 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
 这是最新的方案，在重新安装/git拉取最新版本的官方 Web UI 后可以直接无脑适配，门槛最低，效果显著。
 
-- 定论：根据 Github 中的 discuss ，以及 Reddit 上的超长性能贴讨论，较为一致的看法是新版UI+新版torch可以替代旧版的手动cudnn方案。**重要的是，终于可以作用到20,30系显卡了！**下文为对该方案的逐步操作[帖子链接](https://www.reddit.com/r/StableDiffusion/comments/y71q5k/comment/jcm67lu/?utm_source=share&utm_medium=web2x&context=3)![截图](image/wc/5.jpg)
+- 定论：根据 Github 中的 discuss ，以及 Reddit 上的超长性能贴讨论，较为一致的看法是新版UI+新版torch可以替代旧版的手动cudnn方案。**重要的是，终于可以作用到20,30系显卡了！**下文为对该方案的逐步操作[帖子链接](https://www.reddit.com/r/StableDiffusion/comments/y71q5k/comment/jcm67lu/?utm_source=share&utm_medium=web2x&context=3)![截图](/assets/webui-config/5.jpg)
 
     - ####  更新 PyTorch 2.0 and Cuda 11.8
 
@@ -59,7 +59,7 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
     pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
     ```
 
-    ![pip](image/wc/6.jpg)
+    ![pip](/assets/webui-config/6.jpg)
 
     下载较慢的话可以尝试自行换 pip 源，等待安装，这可能需要下载10分钟
 
@@ -77,7 +77,7 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
     - #### 现在，让我们启动webui，查看底部信息
 
-        ![版本](image/wc/7.jpg)
+        ![版本](/assets/webui-config/7.jpg)
 
         如果显示的是torch2.0+cu118，就说明成功了，这个时候再次去System Info 面板下跑下测试吧~
 
@@ -112,7 +112,7 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
     
     这时候你的 webui-user.bat 的内容可能类似这样：
     
-    ![user截图](image/wc/8.jpg)
+    ![user截图](/assets/webui-config/8.jpg)
 
 
 

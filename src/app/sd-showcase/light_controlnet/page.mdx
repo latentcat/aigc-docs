@@ -17,10 +17,10 @@ export const metadata = {
 在我的毕设中，我通过 Midjourney 生成风格图，并训练后在 SD WebUI 中使用，发现目前虽然有控制构图，骨骼，人物等的 controlnet ，但是缺少一个让美术从 0 - 1 的，针对光影和构图的控制工具，于是设想是否可以制作这样的一个 controlnet 。在阅读并尝试跑通了 controlnet 原作者的 demo 后，我发现这是可行的
 
 
-![s15](./image/light/s15.jpg)
+![s15](/assets/light/s15.jpg)
 
 
-![s33](./image/light/s33.png)
+![s33](/assets/light/s33.png)
 
 
 ## 使用教程
@@ -39,50 +39,50 @@ export const metadata = {
 可以这样做：我们以三金老师的一张图片来举例
 
 
-![s31](./image/light/s31.png)
+![s31](/assets/light/s31.png)
 
 
 对这张图片进行黑白，模糊处理，并扣出烟花，将他放大，得到黑白图。
 
 
-![s32](./image/light/s32.png)
+![s32](/assets/light/s32.png)
 
 将黑白图放入controlnet，选择模型（可从huggingface上下载）
 
-![s13](./image/light/s29.png)
+![s13](/assets/light/s29.png)
 
 会得到下面三张图
 
-![s13](./image/light/s27.jpg)
+![s13](/assets/light/s27.jpg)
 
-![s13](./image/light/s28.jpg)
+![s13](/assets/light/s28.jpg)
 
-![s13](./image/light/s17.jpg)
+![s13](/assets/light/s17.jpg)
 
 可以看到虽然光影关系得到了保留，但是由于原人物的位置太黑了，导致 Prompt 中的 1 girl 并没有和画面联系上，所以我们需要另一个 controlnet 配合赋予正确的语义关系
 
-![s13](./image/light/s30.png)
+![s13](/assets/light/s30.png)
 
 在使用 seg 后，两个 controlnet 配合，切换不同的底膜，可以得到如下的效果
 
-![s13](./image/light/s18.jpg)
+![s13](/assets/light/s18.jpg)
 
-![s13](./image/light/s19.jpg)
+![s13](/assets/light/s19.jpg)
 
-![s13](./image/light/s20.jpg)
+![s13](/assets/light/s20.jpg)
 
-![s13](./image/light/s22.jpg)
+![s13](/assets/light/s22.jpg)
 
-![s13](./image/light/s24.jpg)
+![s13](/assets/light/s24.jpg)
 
-![s13](./image/light/s25.jpg)
+![s13](/assets/light/s25.jpg)
 
 现在，请自行尝试，目前还未完成全部数据集的训练，在泛化性上会有所不足，需要根据场景和提示词去调整权重，如果你有好的效果或者碰到了问题，可以在评论区留言，其他对比效果在文章下发。
 
 ### 成果展示
 
 
-![s13](./image/light/s33.png)
+![s13](/assets/light/s33.png)
 
 
 
@@ -90,26 +90,26 @@ export const metadata = {
 
 以下内容大部分出自在 huggingface 线下的分享活动中。
 
-![s13](./image/light/s13.jpg)
+![s13](/assets/light/s13.jpg)
 
-![s8](./image/light/s8.jpg)
+![s8](/assets/light/s8.jpg)
 
 目前可见，controlnet 已经学到了亮暗对应的关系，如图中在胸部亮时，对应的光照是侧光且发亮，在原图暗时，对应的生成效果是无光。
 
 且目前可见初步学习到了光源和图片中及 Prompt 理解的关系，如在原本的图中是高亮的头发，在变为黑白图控制后 AI 理解为打开的窗户 - 主光源。在刻意涂抹后，变为了昏暗的背景。这种语义化好坏参半，会在后续中分叉进行去语义化和加强语义化的两个版本进行训练。
 
 
-![s9](./image/light/s9.jpg)
+![s9](/assets/light/s9.jpg)
 
-![s10](./image/light/s10.jpg)
+![s10](/assets/light/s10.jpg)
 
-![s11](./image/light/s11.jpg)
+![s11](/assets/light/s11.jpg)
 
 在以上三组图中可见，通过对输入内容进行白色亮点的添加，并在 Prompt 中输入漂浮的星星，就可以将其引导到白色亮点上。
 
-![s12](./image/light/s12.jpg)
+![s12](/assets/light/s12.jpg)
 
-![s14](./image/light/s14.jpg)
+![s14](/assets/light/s14.jpg)
 
 
 
@@ -122,8 +122,7 @@ export const metadata = {
 
 使用 Python 的 PIL 库对数据集图片进行处理，取得尽可能保留**光影关系**，同时去除掉细节的对照集。核心思路为先对图像进行缩放，让其在高分辨率下进行处理，防止细节提前丢失。并通过 **```对比度```** ，**```高斯模糊```** - **```表面模糊```** - **```高斯模糊```** - **```多次滤波```** 去掉线条细节 - **```自适应直方图均衡```** 调整光影关系 - **```像素化```** 破坏内容细节（如脸部，物体纹路） - **```压缩```** 到 512 尺寸方便训练。
 
-```
-
+```python
 def imgprocess(path):
     # 打开原始图像
     img = Image.open(path)
@@ -171,30 +170,28 @@ def imgprocess(path):
     img = img.resize((512, 512), resample=Image.BILINEAR)
 
     return img
-
-
 ```
 
 
-![s1](./image/light/s1.png)
+![s1](/assets/light/s1.png)
 
 
-![s2](./image/light/s2.png)
+![s2](/assets/light/s2.png)
 
 
-![s3](./image/light/s3.png)
+![s3](/assets/light/s3.png)
 
 
 ### 训练过程
 
 
-![s16](./image/light/s16.jpg)
+![s16](/assets/light/s16.jpg)
 
-![s4](./image/light/s4.jpg)
+![s4](/assets/light/s4.jpg)
 
-![s5](./image/light/s5.jpg)
+![s5](/assets/light/s5.jpg)
 
-![s6](./image/light/s6.jpg)
+![s6](/assets/light/s6.jpg)
 
 
 
@@ -205,4 +202,4 @@ def imgprocess(path):
 
 不同参数对比图
 
-![s26](./image/light/s26.jpg)
+![s26](/assets/light/s26.jpg)

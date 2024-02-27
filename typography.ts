@@ -266,6 +266,11 @@ export default function typographyStyles({ theme }: PluginUtils) {
           paddingRight: '0',
         },
 
+        // Images
+        img: {
+          borderRadius: theme('borderRadius.lg'),
+        },
+
         // Inline elements
         a: {
           color: 'var(--tw-prose-links)',
