@@ -14,7 +14,7 @@ export const metadata = {
 
 抄作业：
 
-```
+```shell
 set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-access --disable-nan-check --opt-channelslast
 ```
 
@@ -55,7 +55,7 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
     以下所有命令都在终端（SD 所在文件夹）内输入
 
-    ```
+    ```shell
     pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
     ```
 
@@ -89,21 +89,21 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
 - Tips1 ：如果你是新克隆的 Web UI 存储库，可以直接在webui-user.bat文件中包含下列代码，以便初始化：
 
-    ```
+    ```shell
     set COMMANDLINE_ARGS= --opt-sdp-attention 
     set TORCH_COMMAND=pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
     ```
 
 - Tips2 : 如果你是已经安装了 PyTorch 1.3 的存储库，可以修改 webui-user.bat 包含以下内容：
 
-    ```
+    ```shell
     set COMMANDLINE_ARGS= --opt-sdp-attention --reinstall-torch
     set TORCH_COMMAND=pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
     ```
 
     在启动后删除
 
-    ```
+    ```shell
     --reinstall-torch
     set TORCH_COMMAND=pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
     ```
