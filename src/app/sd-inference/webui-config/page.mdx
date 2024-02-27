@@ -10,7 +10,7 @@ export const metadata = {
 尚未完成
 :::
 
-**最佳配置：**如果你和作者一样，是 4080 及以上的显卡，可以直接抄作业(环境需要一致)，如果不是，可以往后看其他显卡的方案。
+**最佳配置**：如果你和作者一样，是 4080 及以上的显卡，可以直接抄作业(环境需要一致)，如果不是，可以往后看其他显卡的方案。
 
 抄作业：
 
@@ -49,52 +49,52 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
 - 定论：根据 Github 中的 discuss ，以及 Reddit 上的超长性能贴讨论，较为一致的看法是新版UI+新版torch可以替代旧版的手动cudnn方案。**重要的是，终于可以作用到20,30系显卡了！**下文为对该方案的逐步操作[帖子链接](https://www.reddit.com/r/StableDiffusion/comments/y71q5k/comment/jcm67lu/?utm_source=share&utm_medium=web2x&context=3)![截图](/assets/webui-config/5.jpg)
 
-    - ####  更新 PyTorch 2.0 and Cuda 11.8
+  1. **更新 PyTorch 2.0 and Cuda 11.8**
 
-    目前最新版为 PyTorch 2.1 构建版，考虑到难度和稳定性，这里推进 2.0 版本，且网页数据也显示 2.0 和 2.1 差距不大。
+  目前最新版为 PyTorch 2.1 构建版，考虑到难度和稳定性，这里推进 2.0 版本，且网页数据也显示 2.0 和 2.1 差距不大。
 
-    以下所有命令都在终端（SD 所在文件夹）内输入
+  以下所有命令都在终端（SD 所在文件夹）内输入
 
-    ```shell
-    pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
-    ```
+  ```shell
+  pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
+  ```
 
-    ![pip](/assets/webui-config/6.jpg)
+  ![pip](/assets/webui-config/6.jpg)
 
-    下载较慢的话可以尝试自行换 pip 源，等待安装，这可能需要下载10分钟
+  下载较慢的话可以尝试自行换 pip 源，等待安装，这可能需要下载10分钟
 
-    - ####  修改 webui-user.bat 配置
+  2. **修改 webui-user.bat 配置**
 
-    在之前，我们常用 xformers 来进行加速，现在你需要关掉它，转而使用新的 PyTorch 优化
-    
-    ```--opt-sdp-attention ```,只需要删掉```--xformers```的部分，添加```--opt-sdp-attention```到```COMMANDLINE_ARGS=```后即可
+  在之前，我们常用 xformers 来进行加速，现在你需要关掉它，转而使用新的 PyTorch 优化
 
-    - #### 安装新版 CUDA 和 CUDNN 
+  ```--opt-sdp-attention ```,只需要删掉```--xformers```的部分，添加```--opt-sdp-attention```到```COMMANDLINE_ARGS=```后即可
 
-    前往 [CUDA 下载](https://developer.nvidia.com/cuda-toolkit-archive)下载11.8版本，前往 [CUDNN 下载](https://developer.download.nvidia.com/compute/redist/cudnn/v8.8.0/local_installers/11.8/)下载对应你系统的版本，8.8.0的cudnn。
-    
-    或者通过[百度网盘地址](https://pan.baidu.com/s/1nf-Z2h7DbOVhrDJ28tZGhg?pwd=b90s)下载，但是可能会更新较慢
+  3. **安装新版 CUDA 和 CUDNN**
 
-    - #### 现在，让我们启动webui，查看底部信息
+  前往 [CUDA 下载](https://developer.nvidia.com/cuda-toolkit-archive)下载 11.8 版本，前往 [CUDNN 下载](https://developer.download.nvidia.com/compute/redist/cudnn/v8.8.0/local_installers/11.8/)下载对应你系统的版本，8.8.0的cudnn。
 
-        ![版本](/assets/webui-config/7.jpg)
+  或者通过[百度网盘地址](https://pan.baidu.com/s/1nf-Z2h7DbOVhrDJ28tZGhg?pwd=b90s)下载，但是可能会更新较慢
 
-        如果显示的是torch2.0+cu118，就说明成功了，这个时候再次去System Info 面板下跑下测试吧~
+  4. **现在，让我们启动 web UI，查看底部信息**
+
+  ![版本](/assets/webui-config/7.jpg)
+
+  如果显示的是 torch2.0+cu118，就说明成功了，这个时候再次去 System Info 面板下跑下测试吧~
 
 - 问题：
 
-    开启 --opt-sdp-attention 后会提高显存的需求，你会发现之前hires可以开启的分辨率，现在会爆显存，你可以配合分块vae插件来解决这个问题。
+    开启 --opt-sdp-attention 后会提高显存的需求，你会发现之前hires可以开启的分辨率，现在会爆显存，你可以配合分块 VAE 插件来解决这个问题。
     存在和 xformer 一样的不确定性问题，可以通过修改为 ``--opt-sdp-no-mem-attention`` 解决，但是会损失一丢丢速度
 
 
-- Tips1 ：如果你是新克隆的 Web UI 存储库，可以直接在webui-user.bat文件中包含下列代码，以便初始化：
+- Tip 1 ：如果你是新克隆的 web UI 存储库，可以直接在 webui-user.bat 文件中包含下列代码，以便初始化：
 
     ```shell
     set COMMANDLINE_ARGS= --opt-sdp-attention 
     set TORCH_COMMAND=pip install torch==2.0.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu118
     ```
 
-- Tips2 : 如果你是已经安装了 PyTorch 1.3 的存储库，可以修改 webui-user.bat 包含以下内容：
+- Tip 2 : 如果你是已经安装了 PyTorch 1.3 的存储库，可以修改 webui-user.bat 包含以下内容：
 
     ```shell
     set COMMANDLINE_ARGS= --opt-sdp-attention --reinstall-torch
@@ -118,7 +118,7 @@ set COMMANDLINE_ARGS=--listen --opt-sdp-attention --enable-insecure-extension-ac
 
 ---
 
-###  xfomer + 替换cudnn（旧版加速方案）
+###  xfomer + 替换 cudnn（旧版加速方案）
 
 ###  启用 TOME （需要修改源码）
 
