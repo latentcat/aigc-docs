@@ -4,8 +4,7 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
-    "README.md",
-    "src/components/Contributors.mdx"
+    "README.md"
   ],
   "contributors": [
     {
