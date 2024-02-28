@@ -197,6 +197,7 @@ export default function typographyStyles({ theme }: PluginUtils) {
         'img, video, figure': {
           marginTop: theme('spacing.8'),
           marginBottom: theme('spacing.8'),
+          borderRadius: theme('borderRadius.lg'),
         },
         'figure > *': {
           marginTop: '0',
@@ -271,11 +272,6 @@ export default function typographyStyles({ theme }: PluginUtils) {
         },
         ':is(tbody, tfoot) td:last-child': {
           paddingRight: '0',
-        },
-
-        // Images
-        img: {
-          borderRadius: theme('borderRadius.lg'),
         },
 
         // Inline elements

@@ -1,0 +1,134 @@
+export const metadata = {
+  title: 'Stable Diffusion 模型生态',
+}
+
+
+# Stable Diffusion 模型生态
+
+
+<Authors names="ciaochaos" />
+
+<Note>
+  尚未完成，持续更新
+</Note>
+
+
+
+
+### To Categorize
+
+- Embeddings
+- Dreambooth Checkpoint
+- LoCon / LoHa / LyCORIS
+- T2I Adapter
+- Wonder 3D
+- AnimateDiff
+- LCM / LCM LoRA
+- Consistency Decoder
+- AnimateAnyone
+- MagicAnimate
+
+
+
+### Others
+
+
+- DreamGaussion
+- Stable Video Diffusion
+
+
+
+## Original Stable Diffusion
+
+
+[High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752)
+
+
+![](/assets/sd-ecology/original-sd.jpeg)
+
+
+> 本质上是一个去噪的过程，做了三件事情，一是训练了一个从噪声中想象图像的网络（UNet），二是通过注意力机制让文字引导去噪过程（Spatial Trasformer），三是把整个去噪的过程从像素空间迁移到 Latent 空间（通过 VAE），所以 Stable Diffusion 分类上是一个 LDM 模型（Latent Diffusion Model）
+
+
+
+
+## App
+
+
+- AI Comic Factory
+https://huggingface.co/spaces/jbilcke-hf/ai-comic-factory
+- Try Emoji
+https://huggingface.co/spaces/leptonai/tryemoji
+- IllusionDiffusion
+https://huggingface.co/spaces/AP123/IllusionDiffusion
+- PixArt LCM
+https://huggingface.co/spaces/PixArt-alpha/PixArt-LCM
+
+
+
+## ControlNet
+
+[Adding Conditional Control to Text-to-Image Diffusion Models](http://arxiv.org/abs/2302.05543)
+
+* [lllyasviel/ControlNet: Let us control diffusion models!](https://github.com/lllyasviel/ControlNet)
+* [lllyasviel/ControlNet-v1-1-nightly: Nightly release of ControlNet 1.1](https://github.com/lllyasviel/ControlNet-v1-1-nightly)
+* [ControlNet in 🧨 Diffusers](https://huggingface.co/blog/controlnet)
+* [ControlNet](https://huggingface.co/docs/diffusers/api/pipelines/controlnet)
+* [Train your ControlNet with diffusers](https://huggingface.co/blog/train-your-controlnet)
+* [ControlNet](https://huggingface.co/docs/diffusers/training/controlnet)
+
+
+
+## LoRA
+
+[LoRA: Low-Rank Adaptation of Large Language Models](http://arxiv.org/abs/2106.09685)
+
+
+
+
+## IP Adapter
+
+[IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models](http://arxiv.org/abs/2308.06721)
+
+* [IP-Adapter 官网](https://ip-adapter.github.io/)
+* [IP-Adapter GitHub](https://github.com/tencent-ailab/IP-Adapter)
+* [IP-Adapter Hugging Face](https://huggingface.co/h94/IP-Adapter)
+
+
+## Style Aligned Generation
+
+[[Style Aligned Image Generation 参考]]
+
+[Style Aligned Image Generation via Shared Attention](http://arxiv.org/abs/2312.02133)
+
+https://style-aligned-gen.github.io
+https://github.com/google/style-aligned/blob/main/style_aligned_sdxl.ipynb
+
+![](/assets/sd-ecology/style-aligned.png)
+
+
+## MagicAnimate
+
+* [MagicAnimate 官网](https://showlab.github.io/magicanimate/)
+* [MagicAnimate GitHub](https://github.com/magic-research/magic-animate)
+* [MagicAnimate Hugging Face Space](https://huggingface.co/spaces/zcxu-eric/magicanimate)
+
+
+## MotionCtrl
+
+[MotionCtrl: A Unified and Flexible Motion Controller for Video Generation](http://arxiv.org/abs/2312.03641)
+
+* [MotionCtrl](https://wzhouxiff.github.io/projects/MotionCtrl/)
+* [TencentARC/MotionCtrl](https://github.com/TencentARC/MotionCtrl)
+
+![](/assets/sd-ecology/motion-ctrl.png)
+
+<video width="100%" controls>
+  <source src="/assets/sd-ecology/motion-ctrl.mp4" type="video/mp4" />
+</video>
+
+
+
+
+
+

@@ -85,6 +85,7 @@ export const navigation: Array<NavGroup> = [
     title: '模型构建',
     links: [
       { title: '模型构建概览', href: '/model-building/intro' },
+      { title: 'SD 模型生态', href: '/model-building/sd-ecology' },
     ],
   },
   {
