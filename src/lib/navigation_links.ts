@@ -83,6 +83,12 @@ export const navigation: Array<NavGroup> = [
     ],
   },
   {
+    title: '模型构建',
+    links: [
+      { title: '模型构建概览', href: '/model-building/intro' },
+    ],
+  },
+  {
     title: '工具和资源',
     links: [
       { title: 'IoC Lab App', href: '/resources/ioc-lab-app' },
