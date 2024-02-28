@@ -3,6 +3,6 @@
   "projectOwner": "latent-cat",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": ["README.md", "src/components/contributors.mdx"],
+  "files": ["README.md", "src/components/Contributors.mdx"],
   "contributors": []
 }
