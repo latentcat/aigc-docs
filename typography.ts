@@ -219,6 +219,11 @@ export default function typographyStyles({ theme }: PluginUtils) {
           lineHeight: theme('lineHeight.6'),
           fontSize: theme('fontSize.sm')[0],
           ...theme('fontSize.sm')[1],
+          overflowWrap: "break-word",
+          whiteSpace: "nowrap",
+          overflowX: "auto",
+          position: "relative",
+          display: "block",
         },
         thead: {
           borderBottomWidth: '1px',
