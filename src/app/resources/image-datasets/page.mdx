@@ -1,0 +1,119 @@
+import {AuthorCiaochaos} from "../../../components/ArticleAuthors";
+export const metadata = {
+  title: '图像数据集',
+}
+
+# 图像数据集
+
+
+编辑：<AuthorCiaochaos />
+
+
+
+#### 下载器
+
+- img2dataset：https://github.com/rom1504/img2dataset
+
+
+#### HF Datasets
+
+
+- HF 镜像：https://hf-mirror.com
+- 一篇教程：https://zhuanlan.zhihu.com/p/663712983
+
+- 使用 hf api 下载（使用 cli 同理，这就是 cli 的内部实现）
+
+
+```python
+import os
+from pathlib import Path
+
+# os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
+from huggingface_hub import HfApi, logging
+
+repo_id = "PixArt-alpha/SAM-LLaVA-Captions10M"
+repo_type = "dataset"
+
+local_name = repo_id.split("/")[1]
+
+logging.set_verbosity_debug()
+hf = HfApi()
+hf.snapshot_download(
+    repo_id=repo_id,
+    repo_type=repo_type,
+    # revision="refs/convert/parquet",
+    local_dir=Path("./") / local_name,
+    local_dir_use_symlinks=False,
+    resume_download=True,
+    cache_dir="./cache",
+    max_workers=16,
+)
+```
+
+
+- 提取 hf repo 的文件列表，并存至 TXT，供 IDM 等工具下载
+
+
+```python
+import aiohttp
+import asyncio
+import json
+
+
+async def fetch(session, url):
+    async with session.get(url) as response:
+        return await response.text()
+
+
+async def main():
+
+    repo_id = "PixArt-alpha/PixArt-alpha"
+    repo_type = "model"
+    urls = []
+
+    type_route_api = "models/"
+    type_route_dl = ""
+    if repo_type == "dataset":
+        type_route_api = "datasets/"
+        type_route_dl = "datasets/"
+
+    url = f'https://hf-mirror.com/api/{type_route_api}{repo_id}'
+    async with aiohttp.ClientSession() as session:
+        response_text = await fetch(session, url)
+        response_json = json.loads(response_text)
+
+        for sibling in response_json["siblings"]:
+            download_url = f"https://hf-mirror.com/{type_route_dl}{repo_id}/resolve/main/" + sibling["rfilename"] + "?download=true"
+            urls.append(download_url)
+
+    with open('output_urls.txt', 'w') as file:
+        for item in urls:
+            file.write(item + '\n')
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
+```
+
+
+### 数据标注
+
+
+多模态模型标注
+
+- LLaVA：https://llava-vl.github.io/
+- CogVLM：https://huggingface.co/spaces/THUDM/CogVLM-CogAgent
+
+
+打标
+
+- WD1.4：https://gist.github.com/harubaru/8581e780a1cf61352a739f2ec2eef09b
+- WD1.5：https://saltacc.notion.site/saltacc/WD-1-5-Beta-3-Release-Notes-1e35a0ed1bb24c5b93ec79c45c217f63
+
+
+美学评分
+
+- 20万动漫：https://huggingface.co/spaces/Laxhar/anime-thetic
+
+
