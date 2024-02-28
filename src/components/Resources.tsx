@@ -14,6 +14,9 @@ import { ChatBubbleIcon } from '@/components/icons/ChatBubbleIcon'
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon'
 import { UserIcon } from '@/components/icons/UserIcon'
 import { UsersIcon } from '@/components/icons/UsersIcon'
+import {BookIcon} from "@/components/icons/BookIcon";
+import {DocumentIcon} from "@/components/icons/DocumentIcon";
+import {PaperClipIcon} from "@/components/icons/PaperClipIcon";
 
 interface Resource {
   href: string
@@ -32,7 +35,7 @@ const resources: Array<Resource> = [
     name: 'Web UI 安装流程',
     description:
       '一个重要的起点',
-    icon: UserIcon,
+    icon: DocumentIcon,
     pattern: {
       y: 16,
       squares: [
@@ -46,7 +49,7 @@ const resources: Array<Resource> = [
     name: '传统纹样 LoRA',
     description:
       '从一个案例看 LoRA 训练',
-    icon: ChatBubbleIcon,
+    icon: DocumentIcon,
     pattern: {
       y: -6,
       squares: [
@@ -60,7 +63,7 @@ const resources: Array<Resource> = [
     name: 'Brightness ControlNet 训练',
     description:
       '百万数据量的模型训练流程',
-    icon: EnvelopeIcon,
+    icon: DocumentIcon,
     pattern: {
       y: 32,
       squares: [
@@ -74,7 +77,7 @@ const resources: Array<Resource> = [
     name: 'Awesome AIGC',
     description:
       '实用参考大合集',
-    icon: UsersIcon,
+    icon: PaperClipIcon,
     pattern: {
       y: 22,
       squares: [[0, 1]],
