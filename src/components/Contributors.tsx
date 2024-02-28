@@ -24,7 +24,7 @@ export default async function Contributors() {
               src={contributor.avatar_url}
               width="w-20 h-20"
               alt={contributor.name}
-              className="rounded-full"
+              className="rounded-full block"
             />
             <div className="mt-2 text-xs line-clamp-1 w-full text-center">
               <b>{contributor.name}</b>
