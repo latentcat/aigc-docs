@@ -3,6 +3,22 @@
   "projectOwner": "latent-cat",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": ["README.md", "src/components/Contributors.mdx"],
-  "contributors": []
+  "files": [
+    "README.md",
+    "src/components/Contributors.mdx"
+  ],
+  "contributors": [
+    {
+      "login": "ciaochaos",
+      "name": "倪豪",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55932704?v=4",
+      "profile": "https://troyni.com",
+      "contributions": [
+        "example"
+      ]
+    }
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7
 }
