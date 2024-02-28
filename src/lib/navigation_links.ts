@@ -70,7 +70,6 @@ export const navigation: Array<NavGroup> = [
   {
     title: 'LLM 文字生成',
     links: [
-      { title: 'IoC Lab 工具', href: '/llm-inference/lab-tool' },
       { title: 'LangChain 使用方法', href: '/llm-inference/langchain' },
       { title: 'LangChain 语义搜索', href: '/llm-inference/embedding' },
       { title: 'Python 自动化脚本', href: '/llm-inference/python-tool' },
