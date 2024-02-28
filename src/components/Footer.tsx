@@ -107,7 +107,7 @@ function SocialLink({
   children: React.ReactNode
 }) {
   return (
-    <Link href={href} className="group">
+    <Link href={href} target="_blank" className="group">
       <span className="sr-only">{children}</span>
       <Icon className="h-5 w-5 fill-zinc-700 transition group-hover:fill-zinc-900 dark:group-hover:fill-zinc-500" />
     </Link>
@@ -121,13 +121,13 @@ function SmallPrint() {
         &copy; Copyright {new Date().getFullYear()} Latent Cat. All rights reserved.
       </p>
       <div className="flex gap-4">
-        <SocialLink href="#" icon={XIcon}>
+        <SocialLink href="https://twitter.com/i/communities/1751272053544808510" icon={XIcon}>
           Follow us on X
         </SocialLink>
-        <SocialLink href="#" icon={GitHubIcon}>
+        <SocialLink href="https://github.com/latent-cat/aigc-docs" icon={GitHubIcon}>
           Follow us on GitHub
         </SocialLink>
-        <SocialLink href="#" icon={DiscordIcon}>
+        <SocialLink href="https://discord.gg/V9CNuqYfte" icon={DiscordIcon}>
           Join our Discord server
         </SocialLink>
       </div>
