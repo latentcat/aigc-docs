@@ -10,6 +10,7 @@ export const a = Link
 export const warning = Link
 export { Button } from '@/components/Button'
 export { CodeGroup, Code as code, Pre as pre } from '@/components/Code'
+export { Authors } from '@/components/ArticleAuthors'
 
 export function wrapper({ children }: { children: React.ReactNode }) {
   return (
