@@ -11,6 +11,25 @@ export const warning = Link
 export { Button } from '@/components/Button'
 export { CodeGroup, Code as code, Pre as pre } from '@/components/Code'
 export { Authors } from '@/components/ArticleAuthors'
+export {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
+  Accordion as AccordionUI,
+} from "@/components/ui/accordion"
+import {cn} from "@/lib/utils";
+
+
+export const Accordion = function H2(
+  props: React.ComponentPropsWithoutRef<typeof AccordionUI>,
+) {
+
+  const { className, ...rest } = props
+  return <AccordionUI className={cn("text-foreground", className)} {...rest} />
+}
+
 
 export function wrapper({ children }: { children: React.ReactNode }) {
   return (

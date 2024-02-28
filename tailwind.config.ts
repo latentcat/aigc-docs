@@ -1,11 +1,12 @@
-import { type Config } from 'tailwindcss'
+import type { Config } from "tailwindcss"
 import typographyStyles from './typography'
 import typographyPlugin from '@tailwindcss/typography'
 import headlessuiPlugin from '@headlessui/tailwindcss'
 
-export default {
+const config = {
+  darkMode: ["class"],
   content: ['./src/**/*.{js,mjs,jsx,ts,tsx,mdx}'],
-  darkMode: 'class',
+  prefix: "",
   theme: {
     fontSize: {
       '2xs': ['0.75rem', { lineHeight: '1.25rem' }],
@@ -24,8 +25,14 @@ export default {
       '9xl': ['8rem', { lineHeight: '1' }],
     },
     typography: typographyStyles,
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
-
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -49,7 +56,7 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "var(--accent)",
+          DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
@@ -64,6 +71,11 @@ export default {
       boxShadow: {
         glow: '0 0 4px rgb(0 0 0 / 0.1)',
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
       maxWidth: {
         lg: '33rem',
         '2xl': '40rem',
@@ -76,7 +88,23 @@ export default {
         7.5: '0.075',
         15: '0.15',
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
-  plugins: [typographyPlugin, headlessuiPlugin],
+  plugins: [require("tailwindcss-animate"), typographyPlugin, headlessuiPlugin],
 } satisfies Config
+
+export default config

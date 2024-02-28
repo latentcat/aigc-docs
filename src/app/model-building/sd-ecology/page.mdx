@@ -94,10 +94,27 @@ https://huggingface.co/spaces/PixArt-alpha/PixArt-LCM
 * [IP-Adapter GitHub](https://github.com/tencent-ailab/IP-Adapter)
 * [IP-Adapter Hugging Face](https://huggingface.co/h94/IP-Adapter)
 
+![](/assets/sd-ecology/ip-adapter.png)
+
 
 ## Style Aligned Generation
 
-[[Style Aligned Image Generation 参考]]
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>模型解释</AccordionTrigger>
+    <AccordionContent>
+      > The target images attends to the reference image by applying AdaIN over their queries and keys using the
+      reference queries and keys respectively. Then, we apply shared attention where the target features are updated by both the target values Vt and the reference values Vr.
+
+      Style Align 作用且仅作用于 UNet 的 self-attention 层（补充背景：UNet 的 self-attention 层发生在 latent 图像内部，而 cross-attention 发生在图像和文字 embeddings 之间）。在同时生成参考图像和目标图像时，目标图像的 self-attention 回共享（混入）参考图像的权重，从而达到风格对齐的效果。
+
+      具体方法是，在 QKV 的结构中，通过 AdaIN 将参考图像和目标图像的 Query、Key 混合，然后计算目标图像的 Value。除此之外，若是完全共享 self-attention 则会使生成图像的丰富性下降且会出现颜色污染等问题，若是不使用 AdaIN 混合则图像风格的一致性会下降。
+
+      文章还讨论了输入参考图，使用 DDIM 逆向推倒权重，从而保持风格一致性的方法。
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
 
 [Style Aligned Image Generation via Shared Attention](http://arxiv.org/abs/2312.02133)
 
