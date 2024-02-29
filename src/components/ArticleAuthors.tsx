@@ -26,6 +26,10 @@ const existAuthors: Record<string, AuthorProps> = {
     name: "Troy Ni",
     url: "https://github.com/CPunisher",
   },
+  zhaohan: {
+    name: "Zhaohan Wang",
+    url: "https://github.com/Zhaohan-Wang",
+  },
 };
 
 export function Authors(props: AuthorsProps) {
