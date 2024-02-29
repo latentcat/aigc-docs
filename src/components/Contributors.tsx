@@ -22,9 +22,8 @@ export default async function Contributors() {
           <a href={contributor.profile} className="flex flex-col items-center grow-0 w-20">
             <img
               src={contributor.avatar_url}
-              width="w-20 h-20"
               alt={contributor.name}
-              className="rounded-full block"
+              className="w-20 h-20 rounded-full block"
             />
             <div className="mt-2 text-xs line-clamp-1 w-full text-center">
               <b>{contributor.name}</b>
