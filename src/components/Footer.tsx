@@ -124,7 +124,7 @@ function SmallPrint() {
         <SocialLink href="https://twitter.com/latent_cat" icon={XIcon}>
           Follow us on X
         </SocialLink>
-        <SocialLink href="https://github.com/latent-cat/aigc-docs" icon={GitHubIcon}>
+        <SocialLink href="https://github.com/latentcat/aigc-docs" icon={GitHubIcon}>
           Follow us on GitHub
         </SocialLink>
         <SocialLink href="https://discord.gg/V9CNuqYfte" icon={DiscordIcon}>
