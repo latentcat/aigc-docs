@@ -121,7 +121,7 @@ function SmallPrint() {
         &copy; Copyright {new Date().getFullYear()} Latent Cat. All rights reserved.
       </p>
       <div className="flex gap-4">
-        <SocialLink href="https://twitter.com/i/communities/1751272053544808510" icon={XIcon}>
+        <SocialLink href="https://twitter.com/latent_cat" icon={XIcon}>
           Follow us on X
         </SocialLink>
         <SocialLink href="https://github.com/latent-cat/aigc-docs" icon={GitHubIcon}>
