@@ -3,19 +3,29 @@
 
 ## Getting started
 
-To get started with this template, first install the npm dependencies:
+To get started with this documentation, first install the npm / yarn dependencies:
 
-```bash
+```shell
 npm install
+# or
+yarn
 ```
 
-Next, run the development server:
+Next, copy `.env.example` to `.env.local` and edit the file:
 
-```bash
+```dotenv
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+Finally, run the development server:
+
+```shell
 npm run dev
+# or
+yarn dev
 ```
 
-Finally, open [http://localhost:3000](http://localhost:3000) in your browser to view the website.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the website.
 
 
 ## Contributors
