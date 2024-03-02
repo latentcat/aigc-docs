@@ -1,9 +1,15 @@
-# AIGC All in One Docs
+# AIGC All in One Docs 中文文档
+
+by [Latent Cat](https://latentcat.com)
+
+## 访问网站
+
+[aigc.latentcat.com](https://aigc.latentcat.com)
 
 
-## Getting started
+## 本地运行、贡献文档
 
-To get started with this documentation, first install the npm / yarn dependencies:
+安装依赖
 
 ```shell
 npm install
@@ -11,13 +17,13 @@ npm install
 yarn
 ```
 
-Next, copy `.env.example` to `.env.local` and edit the file:
+将 `.env.example` 拷贝至 `.env.local` 并编辑：
 
 ```dotenv
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-Finally, run the development server:
+运行 dev server：
 
 ```shell
 npm run dev
@@ -25,10 +31,10 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the website.
+打开 [http://localhost:3000](http://localhost:3000) 实时浏览网页。
 
 
-## Contributors
+## 贡献者
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
